@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, user-scalable=no, maximum-scale=1, width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/powerbi-client/2.18.1/powerbi.min.js"></script>
+    
+    <style>
+        /* Estilo do contêiner pai */
+        .report-container {
+            position: relative;
+            width: 100%;
+            height: 720px; /* Altura definida no HTML */
+        }
+
+        /* Estilo do contêiner do relatório */
+        #embedContainer {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Estilo da sobreposição (barra azul no footer com estrelas brilhantes) */
+        .footer-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35px; /* Altura ajustada para cobrir o footer */
+            background: linear-gradient(90deg, #1b758f, #1b758f); /* Gradiente azul */
+            z-index: 1000; /* Garante que a sobreposição fique acima do iframe */
+            overflow: hidden;
+        }
+
+        /* Efeito de estrelas brilhantes */
+        .footer-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="10" cy="10" r="2" fill="white" opacity="0.8"/><circle cx="30" cy="20" r="1" fill="white" opacity="0.6"/><circle cx="50" cy="15" r="1.5" fill="white" opacity="0.7"/><circle cx="70" cy="25" r="1" fill="white" opacity="0.5"/><circle cx="90" cy="10" r="2" fill="white" opacity="0.9"/></svg>') repeat;
+            animation: sparkle 5s infinite linear;
+            opacity: 0.6;
+        }
+
+
+        @keyframes sparkle {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100px); }
+        }
+    </style>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+            }
+            .output {
+                margin-top: 20px;
+                font-size: 18px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+            }
+        </style>
+</head>
+<body>
+    <div class="report-container">
+        <div id="embedContainer"></div>
+        <div class="footer-overlay"></div>
+    </div>  
+    <script>
+        let loadedResolve, reportLoaded = new Promise((res) => { loadedResolve = res; });
+        let renderedResolve, reportRendered = new Promise((res) => { renderedResolve = res; });
+        data = new Date()
+        dia = data.getDate()
+        mes = data.getMonth() + 1
+        ano = data.getYear()
+        sum = (ano * 15)
+        parametro = `${dia}${mes}${sum}`
+        
+        // Get models. models contains enums that can be used.
+        const models = window['powerbi-client'].models;
+
+        function embedPowerBIReport() {
+            let embedUrl = "https://app.powerbi.com/view?r=eyJrIjoiYTY4ZDJmY2QtNjc0Yi00NDcxLWI1YmItNDNmNDVkMmYwNGRjIiwidCI6IjRjZDgzNWY0LTU0NDAtNDA4Zi05M2EzLTk3NWZjMTdjMzg0YSIsImMiOjR9"
+            let accessToken = "YOUR_ACCESS_TOKEN";  // Defina o token corretamente
+            let embedReportId = "YOUR_REPORT_ID"; // Defina o ID do relatório corretamente
+            let tokenType = models.TokenType.Embed;
+            let permissions = models.Permissions.All;
+
+            let config = {
+                type: 'report',
+                tokenType: models.TokenType.Embed,
+                accessToken: accessToken,
+                embedUrl: embedUrl,
+                id: embedReportId,
+                permissions: permissions,
+                settings: {
+                    panes: {
+                        filters: { visible: false },
+                        pageNavigation: { visible: true },
+                        navigation: false,
+                        customLayout: {
+                            displayOption: models.DisplayOption.FitToWidth
+                        },  
+                    },
+                    bars: {
+                        statusBar: { visible: false }
+                    }
+                }
+            };
+
+            let embedContainer = document.getElementById('embedContainer');
+            let report = powerbi.embed(embedContainer, config);
+
+            report.off("loaded");
+            report.on("loaded", function () {
+                loadedResolve();
+                report.off("loaded");
+            });
+
+            report.off("error");
+            report.on("error", function (event) {
+                console.log(event.detail);
+            });
+
+            report.off("rendered");
+            report.on("rendered", function () {
+                renderedResolve();
+                report.off("rendered");
+            });
+        }
+        embedPowerBIReport();
+
+        (async () => {
+            await reportLoaded;
+            await reportRendered;
+        })();
+
+
+    </script>
+    <script>
+        // Bloqueia clique direito
+        document.addEventListener('mousedown', function(e) {
+            if (e.button === 2) { // Botão direito do mouse
+                e.preventDefault();
+            }
+        });
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+
+        // Bloqueia atalhos - Ctrl+U, Ctrl+Shift+I e Ctrl+Shift+J
+        document.onkeydown = function(e) {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                (e.ctrlKey && e.key === 'u') ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                e.preventDefault();
+                window.location.href = "http://www.google.com";
+                return false;
+            }
+        };
+
+        // Detecta DevTools
+        function checkDevTools() {
+            const threshold = 160;
+            if (window.outerWidth - window.innerWidth > threshold || 
+                window.outerHeight - window.innerHeight > threshold) {
+                    window.alert("DevTools detectado! Você será redirecionado.");
+                    window.location.href = "http://www.google.com";
+
+            }
+        }
+        setInterval(checkDevTools, 50);
+    </script>
+<script>
+    // Função que verifica a largura da tela e muda a cor de fundo
+    function checkScreenWidth() {
+        const screenWidth = window.innerWidth;
+
+        // Se a largura da tela for menor que 600px, redireciona para o Google
+        if (screenWidth < 600) {
+            checkDevTools() 
+            //window.location.href = "http://www.google.com";
+        }
+    }
+        function isMobile() {
+        return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+        }
+
+        if (isMobile()) {
+        console.log("Usuário está em um dispositivo móvel.");
+        } else {
+        console.log("Usuário não está em um dispositivo móvel.");
+    }
+
+    // Verifica a largura da tela a cada segundo
+    setInterval(checkScreenWidth, 500);
+</script>
+</body>
+</html>

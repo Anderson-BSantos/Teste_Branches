@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Power BI com Barra no Footer</title>
+    <style>
+        /* Estilo do contêiner do iframe */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 800px; /* Ajuste a altura do iframe conforme necessário */
+        }
+
+        /* Estilo da sobreposição (barra azul no footer) */
+        .footer-overlay {
+            position: absolute;
+            bottom: 0; /* Posiciona a barra no fundo do contêiner */
+            left: 0;
+            width: 100%;
+            height: 40px; /* Altura ajustada para cobrir o footer */
+            background-color: #007bff; /* Cor azul */
+            z-index: 10; /* Garante que a sobreposição fique acima do iframe */
+        }
+
+        /* Estilo do iframe */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="iframe-container">
+        <div class="footer-overlay"></div>
+        <iframe src="https://app.powerbi.com/view?r=eyJrIjoiYTY4ZDJmY2QtNjc0Yi00NDcxLWI1YmItNDNmNDVkMmYwNGRjIiwidCI6IjRjZDgzNWY0LTU0NDAtNDA4Zi05M2EzLTk3NWZjMTdjMzg0YSIsImMiOjR9"></iframe>
+    </div>
+</body>
+</html>

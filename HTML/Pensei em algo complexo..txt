@@ -1,0 +1,21 @@
+Pensei em algo complexo.
+tenho o link de um serviço, para este exemplo, vamos chama-lo de "www.translate.google.com".
+digamos que tenha uma requisição "/abc123".
+
+1. Tenho minha URL - www.translate.google.com/abc123
+2. Quero implementa-la de modo dinâmico
+3. Quero criar um encurtador de link com python
+4. Imaginando que a parte de encurtamento de links já esteja implementada em minha aplicação
+5. digamos que meu url fique www.meusite.com/xyz000
+Quero fazer algo assim.
+ex.: hoje é 03/04/2025
+g = timeLocalNow.(Day)
+h = timeLocalNow.(Month)
+j = timelocalNow.(Year)
+k = (j*5)
+
+e ficaria:
+f"www.meusite.com/{g}{h}{k}"
+
+e quero que isso aconteça no meu banco de dados também.
+Usar um ID incremental no banco.

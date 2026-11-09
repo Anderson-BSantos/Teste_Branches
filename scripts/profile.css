@@ -1,0 +1,96 @@
+/* Profile CSS */
+html, body {
+    background: rgb(182, 182, 182);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+*,:after,:before {
+    box-sizing: border-box
+}
+  
+[tabindex="-1"]:focus:not(:focus-visible) {
+    outline: 0!important
+}
+.progress-container {
+    width: 30%;
+    height: 18px;
+    background:  #294361;
+    margin: 20px 0;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: bottom;
+    justify-content: bottom;
+    position: bottom;
+    margin: 50px auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+
+  }
+  
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(#ae8625, #e6df81);
+    transition: width 0.8s ease;
+  }
+
+.loading{
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  
+
+.container {
+    display: flex;
+    color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#teste{
+    color: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+img,svg {
+    vertical-align: middle
+}
+
+.user-avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    background-color: #f0f0f0;
+  }
+  
+  .user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  

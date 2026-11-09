@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perfil com Firebase</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+  <script src="c:\Users\user\Desktop\Anderson - BI\infoGEO\Geo\infogeo\profile\profile.js"></script>
+  <link rel="stylesheet" href="profile.css" />
+  <script src="profile/loading.js"></script>
+
+
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    
+    <h2>Perfil do Usuário</h2>
+    <form id="profile-form">
+      <input type="email" id="email" placeholder="Email" required><br>
+      <input type="password" id="senha" placeholder="Senha" required><br>
+      <select id="tipo-plano">
+        <option value="Básico">Básico</option>
+        <option value="Premium">Premium</option>
+        <option value="Empresarial">Empresarial</option>
+      </select><br>
+        <button type="submit" id="upload-plano">De um UP no seu projeto</button><br>
+        <button type="button" id="teste" onclick="asClick()">Salvar Perfil</button>
+    </form>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyAtDG_kEEXWPfjdI4ZsjjNZEevZsq85WTE",
+        authDomain: "geoanalytics-link.firebaseapp.com",
+        projectId: "geoanalytics-link",
+        storageBucket: "geoanalytics-link.firebasestorage.app",
+        messagingSenderId: "380294665564",
+        appId: "1:380294665564:web:a3c3845688a11e92809d99",
+        measurementId: "G-7THL23KJW5"
+  };
+    firebase.initializeApp(firebaseConfig);
+
+  </script>
+</body>
+</html>

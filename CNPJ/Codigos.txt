@@ -1,0 +1,31 @@
+let
+    Fonte = OData.Feed("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/", null, [Implementation="2.0"]),
+    #"CotacaoDolarDia_function (dataCotacao as text) as table" = Fonte{[Name="CotacaoDolarDia",Signature="function (dataCotacao as text) as table"]}[Data],
+    #"Função InvocadaCotacaoDolarDia_function (dataCotacao as text) as table1" = #"CotacaoDolarDia_function (dataCotacao as text) as table"(Text.From(Date.Month(DateTime.LocalNow()))&"-"&Text.From(Date.Day(DateTime.LocalNow()))&"-"&Text.From(Date.Year(DateTime.LocalNow())))
+in
+    #"Função InvocadaCotacaoDolarDia_function (dataCotacao as text) as table1"
+
+
+let
+    Fonte = OData.Feed("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/", null, [Implementation="2.0"]),
+    #"CotacaoDolarDia_function (dataCotacao as text) as table" = Fonte{[Name="CotacaoDolarDia",Signature="function (dataCotacao as text) as table"]}[Data],
+    dataAtual = DateTime.LocalNow(),
+    dataFormatada = Text.From(Date.Month(dataAtual)) & "-" & Text.From(Date.Day(dataAtual)) & "-" & Text.From(Date.Year(dataAtual)),
+    cotacaoHoje = try #"CotacaoDolarDia_function (dataCotacao as text) as table"(dataFormatada) otherwise null,
+    
+    cotacaoDiaAnterior = if cotacaoHoje = null then 
+        #"CotacaoDolarDia_function (dataCotacao as text) as table"(Text.From(Date.Month(dataAtual)) & "-" & Text.From(Date.Day(dataAtual) - 1) & "-" & Text.From(Date.Year(dataAtual))) 
+    else cotacaoHoje
+in
+    cotacaoDiaAnterior
+
+
+- Novas medidas
+
+Medida = VAR Dolar = MAX('Dolar'[cotacaoVenda])
+    RETURN 
+    IF(
+        ISBLANK(Dolar),  // Verifica se o valor é nulo
+        "-",  // Se for nulo, retorna "-"
+        Dolar  // Caso contrário, retorna o valor da cotação
+    )

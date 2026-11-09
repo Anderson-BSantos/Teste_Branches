@@ -1,0 +1,16 @@
+<form id="form-registro">
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Senha" required />
+    <select id="plano" required>
+      <option value="" disabled selected>Selecione seu plano</option>
+      <option value="Básico">Básico</option>
+      <option value="Premium">Premium</option>
+      <option value="Pro">Pro</option>
+    </select>
+    <button type="submit">Registrar</button>
+  </form>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="scripts/register.js"></script>
